@@ -42,4 +42,14 @@ public class JarUtils {
         }
         return selectJarEntries(jarFile, jarEntry -> jarEntry.getName().endsWith(".class") && jarEntry.getName().replaceAll("[\\\\/]", ".").startsWith(pkg));
     }
+
+    /**
+     * 找到jar包中所有的class
+     *
+     * @param jarFile
+     * @return
+     */
+    public static List<JarEntry> selectClassJarEntries(JarFile jarFile) {
+        return selectJarEntries(jarFile, jarEntry -> jarEntry.getName().endsWith(".class"));
+    }
 }

@@ -1,18 +1,7 @@
 package com.zy.cs;
 
-import com.zy.cs.jar.JarUtils;
 import org.apache.commons.lang.StringUtils;
-
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
+import java.util.Scanner;
 
 /**
  * 入口类
@@ -42,24 +31,7 @@ public class Main {
             //这里进行核心的工作
             //Controller controller
             //遍历文件
-            try {
-                Map<JarFile, List<JarEntry>> map = new HashMap<>();
-
-                List<JarEntry> jarEntryList = new ArrayList<>();
-                Stream<Path> pathStream = Files.list(Paths.get(libPath));
-                for (Path path : pathStream.collect(Collectors.toList())) {
-//                    URL url = path.toUri().toURL();
-//                    if (StringUtils.equals("jar", url.getProtocol())) {
-//
-//                    }
-                    if (StringUtils.endsWith(path.toString(), ".jar")) {
-                        jarEntryList.addAll(JarUtils.selectClassJarEntriesByPkg(new JarFile(path.toFile()), pkg));
-                    }
-                }
-                System.out.println(jarEntryList.stream().map(ZipEntry::getName).collect(Collectors.joining("\n")));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ControllerScanner.cScan(libPath, pkg, route, type);
             System.out.println("是否继续？y/n");
             String goon = scanner.nextLine();
             if (!StringUtils.equalsIgnoreCase(goon, "y")) {
@@ -67,4 +39,6 @@ public class Main {
             }
         }
     }
+
+
 }
